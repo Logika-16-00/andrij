@@ -1,21 +1,12 @@
-from memorycard.card import *
 from PyQt5.QtWidgets import QWidget
-from random import shuffle # будем перемешивать ответы в карточке вопроса
-
-card_width, card_height = 600, 500 # начальные размеры окна "карточка"
-
-def show_data():
-    ''' показывает на экране нужную информацию '''
-    pass
-
-def check_result():
-    ''' проверка, правильный ли ответ выбран
-    если ответ был выбран, то надпись "верно/неверно" приобретает нужное значение
-    и показывается панель ответов '''
-    pass
-
+from card import mani_line
+from app import App
 win_card = QWidget()
-#здесь должны быть параметры окна
+win_card.resize(600,500)
+win_card.setWindowTitle("Memory Card")
+win_card.move(0,0)
+win_card.setLayout(mani_line)
 
 win_card.show()
-app.exec_()
+
+App.exec_()
