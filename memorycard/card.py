@@ -60,7 +60,7 @@ line_res = QVBoxLayout()
 line_res.addWidget(lb_res)
 line_res.addWidget(lb_corect)
 ResGroupBox.setLayout(line_res)
-main_line.addWidget(lb_ans)
+main_line.addWidget(lb_ans, stretch= 1,alignment=Qt.AlignCenter)
 
 main_line.addWidget(AnswersGroupBox,stretch = 8)
 main_line.addWidget(ResGroupBox,stretch = 8)
