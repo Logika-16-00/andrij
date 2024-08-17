@@ -67,17 +67,3 @@ main_line.addWidget(ResGroupBox,stretch = 8)
 ResGroupBox.hide()
 main_line.addWidget(btn_ans)
 
-def show_res():
-    if btn_ans.text() == "Відповісти":
-        AnswersGroupBox.hide()
-        ResGroupBox.show()
-        btn_ans.setText("Наступне питання")
-def show_ans():
-    AnswersGroupBox.show()
-    ResGroupBox.hide()
-    btn_ans.setText("Відповісти")
-    btn_ans1.setChecked(False)
-    btn_ans2.setChecked(False)
-    btn_ans3.setChecked(False)
-    btn_ans4.setChecked(False)
-btn_ans.clicked.connect(show_res)
