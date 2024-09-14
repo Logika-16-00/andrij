@@ -66,4 +66,3 @@ main_line.addWidget(AnswersGroupBox,stretch = 8)
 main_line.addWidget(ResGroupBox,stretch = 8)
 ResGroupBox.hide()
 main_line.addWidget(btn_ans)
-
