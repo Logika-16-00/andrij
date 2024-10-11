@@ -48,12 +48,13 @@ class Widget(QMainWindow):
         
 
     def delete_tag(self):
-        if self.ui.list_1.currentItem():
+        if self.ui.list_1.currentItem() and self.ui.list_2.currentItem():
             note_name = self.ui.list_1.currentItem().text()
-            del notes[note_name]
-            self.ui.list_1.takeItem(self.ui.list_1.currentRow())
+            tag_name = self.ui.list_2.currentItem().text()
+            self.ui.list_2.takeItem(self.ui.list_2.currentRow())
+            notes[note_name]["теги"].remove(tag_name)
         self.write_to_file()
-        
+
 
     def show_note(self,item):
        self.ui.list_2.clear()
