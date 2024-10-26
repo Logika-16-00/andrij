@@ -45,7 +45,18 @@ class Widget(QMainWindow):
             del notes[note_name]
             self.ui.list_1.takeItem(self.ui.list_1.currentRow())
         self.write_to_file()
-        
+    def search_notes(self):
+            search_tag = self.ui.lineEdit.text().strip().lower()
+            self.ui.list_1.clear()
+            if not search_tag:
+                for note in notes.keys():
+                    self.ui.list_1.addItem(note)            
+                return
+
+            for note_name in notes.keys():
+                if search_tag in notes[note_name]["теги"]:
+                        self.ui.list_1.addItem(note_name)
+                self.ui.list_2.clear()
 
     def delete_tag(self):
         if self.ui.list_1.currentItem() and self.ui.list_2.currentItem():
@@ -68,12 +79,11 @@ class Widget(QMainWindow):
 
 
     def write_to_file(self):
-        with open("notes/notes.json","w",encoding="utf-8") as file:
-            json.dump(notes,file, ensure_ascii=False,indent=4)
+        with open("notes.json","w",encoding="utf-8") as file:
+            json.dump(notes,file, ensure_ascii=True)#захист
+            #підвантаження файлів
 
-
-
-with open("notes/notes.json","r",encoding="utf-8") as file:
+with open("notes.json","r",encoding="utf-8") as file:
     notes = json.load(file)
 print("notes")
 
