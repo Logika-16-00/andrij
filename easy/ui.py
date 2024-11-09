@@ -14,33 +14,54 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(562, 316)
+        MainWindow.resize(1126, 843)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(390, 169, 691, 461))
+        self.label.setObjectName("label")
         self.listWidget = QtWidgets.QListWidget(self.centralwidget)
-        self.listWidget.setGeometry(QtCore.QRect(0, 40, 131, 241))
+        self.listWidget.setGeometry(QtCore.QRect(30, 111, 231, 661))
         self.listWidget.setObjectName("listWidget")
-        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(10, 10, 111, 21))
-        self.pushButton.setObjectName("pushButton")
-        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(220, 260, 71, 17))
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(140, 260, 71, 17))
-        self.pushButton_3.setObjectName("pushButton_3")
-        self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_4.setGeometry(QtCore.QRect(380, 260, 71, 17))
-        self.pushButton_4.setObjectName("pushButton_4")
-        self.pushButton_5 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_5.setGeometry(QtCore.QRect(300, 260, 71, 17))
-        self.pushButton_5.setObjectName("pushButton_5")
-        self.pushButton_6 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_6.setGeometry(QtCore.QRect(460, 260, 71, 17))
-        self.pushButton_6.setObjectName("pushButton_6")
+        self.btn_left = QtWidgets.QPushButton(self.centralwidget)
+        self.btn_left.setGeometry(QtCore.QRect(320, 717, 151, 51))
+        self.btn_left.setStyleSheet("background-color: rgb(8, 86, 255);\n"
+"color: rgb(184, 185, 255);\n"
+"border-radius: 10px")
+        self.btn_left.setObjectName("btn_left")
+        self.btn_right = QtWidgets.QPushButton(self.centralwidget)
+        self.btn_right.setGeometry(QtCore.QRect(482, 717, 161, 51))
+        self.btn_right.setStyleSheet("background-color: rgb(8, 86, 255);\n"
+"color: rgb(184, 185, 255);\n"
+"border-radius: 10px")
+        self.btn_right.setObjectName("btn_right")
+        self.btn_flip = QtWidgets.QPushButton(self.centralwidget)
+        self.btn_flip.setGeometry(QtCore.QRect(650, 720, 151, 51))
+        self.btn_flip.setStyleSheet("background-color: rgb(8, 86, 255);\n"
+"color: rgb(184, 185, 255);\n"
+"border-radius: 10px")
+        self.btn_flip.setObjectName("btn_flip")
+        self.btn_sharp = QtWidgets.QPushButton(self.centralwidget)
+        self.btn_sharp.setGeometry(QtCore.QRect(812, 717, 141, 51))
+        self.btn_sharp.setStyleSheet("background-color: rgb(8, 86, 255);\n"
+"color: rgb(184, 185, 255);\n"
+"border-radius: 10px")
+        self.btn_sharp.setObjectName("btn_sharp")
+        self.btn_bw = QtWidgets.QPushButton(self.centralwidget)
+        self.btn_bw.setGeometry(QtCore.QRect(970, 717, 141, 51))
+        self.btn_bw.setStyleSheet("background-color: rgb(8, 86, 255);\n"
+"color: rgb(184, 185, 255);\n"
+"border-radius: 10px")
+        self.btn_bw.setObjectName("btn_bw")
+        self.btn_dir = QtWidgets.QPushButton(self.centralwidget)
+        self.btn_dir.setGeometry(QtCore.QRect(30, 40, 231, 51))
+        self.btn_dir.setStyleSheet("background-color: rgb(8, 86, 255);\n"
+"color: rgb(184, 185, 255);\n"
+"border-radius: 10px")
+        self.btn_dir.setObjectName("btn_dir")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 562, 18))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1126, 26))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -53,12 +74,13 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.pushButton.setText(_translate("MainWindow", "Папка"))
-        self.pushButton_2.setText(_translate("MainWindow", "Вправо"))
-        self.pushButton_3.setText(_translate("MainWindow", "Вліво"))
-        self.pushButton_4.setText(_translate("MainWindow", "Різкізь"))
-        self.pushButton_5.setText(_translate("MainWindow", "Дзеркало"))
-        self.pushButton_6.setText(_translate("MainWindow", "Ч/Б"))
+        self.label.setText(_translate("MainWindow", "TextLabel"))
+        self.btn_left.setText(_translate("MainWindow", "Вліво"))
+        self.btn_right.setText(_translate("MainWindow", "Вправо"))
+        self.btn_flip.setText(_translate("MainWindow", "Дзеркало"))
+        self.btn_sharp.setText(_translate("MainWindow", "Різкість"))
+        self.btn_bw.setText(_translate("MainWindow", "Ч/Б"))
+        self.btn_dir.setText(_translate("MainWindow", "Папка"))
 
 
 if __name__ == "__main__":
