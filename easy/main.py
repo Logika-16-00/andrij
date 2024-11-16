@@ -1,8 +1,9 @@
 from PyQt5.QtCore import QEvent
-from PyQt5.QtWidgets import QApplication,QInputDialog
+from PyQt5.QtWidgets import QApplication,QInputDialog,QMessageBox
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtGui import QPixmap
 from ui import Ui_MainWindow
+
 from PIL import Image
 from PIL import ImageFilter
 from PIL import ImageEnhance
@@ -30,40 +31,7 @@ class Widget(QMainWindow):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    def update_image(self):
+    def update_image(self,image):
         self.ui.label.hide()
         if image:
             pixmap = QPixmap(image)
@@ -115,12 +83,22 @@ class Widget(QMainWindow):
         if workdir:
             all_fills = os.listdir(workdir)
             print(all_fills)
-            files = self.filter(all_fills, ext)
+            filter_files = self.filter(all_fills, ext)
             print(filter_files)
             self.ui.listWidget.clear()
-            for file in files:
+            for file in filter_files:
                 self.ui.listWidget.addItem(file)
 
+    def save_image(self):
+        if self.image:
+            save_part, = QFileDialog.getSaveFileName(self,"зберегти файл",workdir,"Images(*.png*jpeg*jpg.bmp*.gif)")
+            if save_part:
+                self.image.save(save_part)
+                QMessageBox.information(self,"успіх","зображення успішно збережено")
+            else:
+                QMessageBox.information(self,"помилка","не вибрано місце збереження")
+        else:
+            QMessageBox.information(self,"Увага","Помилка зображення для зображення")
 
         
 
