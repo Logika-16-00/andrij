@@ -76,14 +76,16 @@ class Widget(QMainWindow):
                 self.ui.listWidget.addItem(file)
 
     def show_pictures(self):
+        #перевіряємо чи є картинки в списку
         if self.ui.listWidget.currentRow() != -1:
-            try:
-                name = self.ui.listWidget.currentItem().text()
-                path = os.path.join(self.workdir, name)
-                self.image = Image.open(path)
-                self.update_image(path)
-            except Exception as e:
-                QMessageBox.critical(self, "Помилка", f"Неможливо відкрити файл: {e}")
+            #отримуємо назву картинки
+            name = self.ui.listWidget.currentItem().text()
+            #отримуємо шлях до картинки з директорі��
+            path = os.path.join(self.workdir, name)
+            #відкриваємо картинку з шляху
+            self.image = Image.open(path)
+            #виводимо картинку на екран
+            self.update_image(path)
 
     def save_image(self):
         if self.image:
