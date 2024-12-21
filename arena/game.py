@@ -34,7 +34,7 @@ class player(sprite.Sprite):
             self.rect.y += self.speed
 
 hero = player("hero.png",100,140,100,100,3,3)
-enemy = player("enemy.png",450,400,100,3,1)
+enemy = player("enemy.png",450,400,100,100,3,1)
 finish = player("treasure.png",300,200,80,50,0,0)
 while game:
     for e in event.get():
