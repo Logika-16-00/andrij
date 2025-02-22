@@ -13,7 +13,6 @@ graund = transform.scale(image.load("graund.png"),(300,300))
 graund1 = transform.scale(image.load("graund.png"),(300,300))
 graund2 = transform.scale(image.load("graund.png"),(300,300))
 graund3 = transform.scale(image.load("graund.png"),(300,300))
-play = transform.scale(image.load("play.png"),(60,60))
 menu_fon = transform.scale(image.load("fon.png"),(1000,500))
 fon = transform.scale(image.load("fon.png"),(1000,500))
 
@@ -21,8 +20,8 @@ fon = transform.scale(image.load("fon.png"),(1000,500))
 
 
 finish = False
-menu = 1
-level_1=0
+menu = 0
+level_1=1
 
 fps = 60
 clock = time.Clock()
@@ -66,7 +65,11 @@ while game:
     
                         
 
-            
+
+    if not finish:
+        if menu:
+            wn.blit(menu_fon,(0,0))
+
         if level_1:
             wn.blit(graund,(0,200))
             wn.blit(fortress,(500,50))
@@ -77,10 +80,7 @@ while game:
             a.show()
             a.move()
 
-        if menu:            
-            wn.blit(menu_fon,(1000,500))
 
-            wn.blit(play,(100,100))
             
     display.update()
     clock.tick(fps)
