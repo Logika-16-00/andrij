@@ -43,16 +43,33 @@ class Player(sprite.Sprite):
         self.rect.y = y
         self.speed = speed
         self.life = life
-    
+        self.is_jumping = False
+        self.jump_speed = 10
+        self.gravity = 10
+
     def show(self):
         wn.blit(self.image,(self.rect.x,self.rect.y))
 
+    def jump(self):
+        if not self.is_jumping:
+            self.is_jumping = True    
+    def process_jump(self):
+        if self.is_jumping:
+            self.rect.y -= self.jump_speed
+            self.jump_speed -= self.gravity
+            if self.jump_speed <= -20:
+                self.is_jumping = False
+                self.jump_speed = 10
+    
     def move(self):
         keys = key.get_pressed()
         if keys[K_a]:
             self.rect.x -= self.speed
         if keys[K_d]:
             self.rect.x += self.speed
+        if keys[K_c]:
+            self.jump()
+
             
 game = 1
 
@@ -79,7 +96,7 @@ while game:
             wn.blit(bot,(490,270))
             a.show()
             a.move()
-
+    a.process_jump()
 
             
     display.update()
