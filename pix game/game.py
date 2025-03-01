@@ -7,14 +7,23 @@ wn =  display.set_mode((1000,500))
 display.set_caption("Shooter")
 
 
-bot = transform.scale(image.load("bot.png"),(60,60))
-fortress = transform.scale(image.load("fortress.png"),(400,400))
+gem = transform.scale(image.load("gem.png"),(30,30))
+gem = transform.scale(image.load("gem.png"),(30,30))
+gem = transform.scale(image.load("gem.png"),(30,30))
+gem = transform.scale(image.load("gem.png"),(30,30))
+gem = transform.scale(image.load("gem.png"),(30,30))
 graund = transform.scale(image.load("graund.png"),(300,300))
 graund1 = transform.scale(image.load("graund.png"),(300,300))
 graund2 = transform.scale(image.load("graund.png"),(300,300))
 graund3 = transform.scale(image.load("graund.png"),(300,300))
 menu_fon = transform.scale(image.load("fon.png"),(1000,500))
 fon = transform.scale(image.load("fon.png"),(1000,500))
+fon1 = transform.scale(image.load("fon1.png"),(130,50))
+font.init()
+font1 = font.Font(None,30)
+font2 = font.Font(None,80)
+label_lose= font1.render(f"Gem: ",True,(225,225,225))
+score= font1.render(f"0",True,(225,225,225))
 
 
 
@@ -25,12 +34,6 @@ level_1=1
 
 fps = 60
 clock = time.Clock()
-
-font.init()
-font1 = font.Font(None,30)
-font2 = font.Font(None,80)
-
-
 
 
 
@@ -44,7 +47,7 @@ class Player(sprite.Sprite):
         self.speed = speed
         self.life = life
         self.is_jumping = False
-        self.jump_speed = 10
+        self.jump_speed = 20
         self.gravity = 10
 
     def show(self):
@@ -57,23 +60,21 @@ class Player(sprite.Sprite):
         if self.is_jumping:
             self.rect.y -= self.jump_speed
             self.jump_speed -= self.gravity
-            if self.jump_speed <= -20:
+            if self.jump_speed <= -45:
                 self.is_jumping = False
-                self.jump_speed = 10
+                self.jump_speed = 40
     
     def move(self):
         keys = key.get_pressed()
-        if keys[K_a]:
-            self.rect.x -= self.speed
-        if keys[K_d]:
-            self.rect.x += self.speed
-        if keys[K_c]:
+        if keys[K_w]:
             self.jump()
 
             
 game = 1
-
-a = Player("hero.png", 50,280,100,80,0,10)
+gems = sprite.Group()
+gems.add(gem)
+a = Player("hero.png", 50,200,100,80,0,10)
+gen = Player("hero.png",0,0,0,0)
 while game:
     wn.blit(fon,(0,0))
     for e in event.get():
@@ -89,13 +90,19 @@ while game:
 
         if level_1:
             wn.blit(graund,(0,200))
-            wn.blit(fortress,(500,50))
             wn.blit(graund1,(300,200))
             wn.blit(graund2,(400,200))
             wn.blit(graund3,(700,200))
-            wn.blit(bot,(490,270))
+            wn.blit(gem,(400,300))
+            wn.blit(fon1,(10,20))
+            wn.blit(score,(80,35))
+            wn.blit(label_lose,(20,35))
+            a.rect.x+=5
             a.show()
             a.move()
+
+            if sprite.spritecollide(a,gens,True):
+                print(4)
     a.process_jump()
 
             

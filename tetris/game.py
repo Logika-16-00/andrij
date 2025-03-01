@@ -260,4 +260,3 @@ while not done:
     pygame.display.flip()
     clock.tick(fps)
 
-pygame.quit()
