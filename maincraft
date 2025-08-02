@@ -1,0 +1,134 @@
+from panda3d.core import *
+from panda3d.bullet import *
+from direct.showbase.ShowBase import ShowBase
+from direct.task import Task
+from panda3d.core import WindowProperties
+import sys
+import random
+
+class MinecraftRandomTerrain(ShowBase):
+    def __init__(self):
+        ShowBase.__init__(self)
+        self.disableMouse()
+
+        # Сховати курсор
+        props = WindowProperties()
+        props.setCursorHidden(True)
+        self.win.requestProperties(props)
+        self.center_mouse()
+
+        # Завантаження текстури і моделі
+        self.block_model = loader.loadModel("models/box")
+        self.block_model.setTexture(loader.loadTexture("unnamed.jpg"))
+
+        # Фізика
+        self.physics_world = BulletWorld()
+        self.physics_world.setGravity(Vec3(0, 0, -9.81))
+
+        # Гравець
+        self.create_player()
+
+        # Генерація випадкового ландшафту
+        self.generate_terrain(30, 30)
+
+        # Управління
+        self.keys = {"w": False, "s": False, "a": False, "d": False, "space": False}
+        for key in self.keys:
+            self.accept(key, self.set_key, [key, True])
+            self.accept(f"{key}-up", self.set_key, [key, False])
+        self.accept("escape", sys.exit)
+
+        # Оновлення
+        self.taskMgr.add(self.update, "update")
+
+    def set_key(self, key, value):
+        self.keys[key] = value
+
+    def center_mouse(self):
+        size = self.win.getProperties().getSize()
+        self.win.movePointer(0, int(size.x / 2), int(size.y / 2))
+
+    def create_player(self):
+        shape = BulletCapsuleShape(0.4, 1.0, ZUp)
+        self.player_node = BulletCharacterControllerNode(shape, 0.4, 'Player')
+        self.player_np = render.attachNewNode(self.player_node)
+        self.player_np.setPos(0, 0, 15)
+        self.physics_world.attachCharacter(self.player_node)
+
+        self.camera.reparentTo(self.player_np)
+        self.camera.setZ(1.5)
+
+        self.heading = 0
+        self.pitch = 0
+        self.mouse_sensitivity = 0.2
+
+    def generate_terrain(self, width, depth):
+        max_height = 6
+        for x in range(-width // 2, width // 2):
+            for y in range(-depth // 2, depth // 2):
+                height = random.randint(1, max_height)
+                for z in range(height):
+                    self.place_block(x, y, z)
+
+    def place_block(self, x, y, z):
+        size = 1
+        shape = BulletBoxShape(Vec3(size / 2, size / 2, size / 2))
+        node = BulletRigidBodyNode('Block')
+        node.addShape(shape)
+        node.setMass(0)
+        np = render.attachNewNode(node)
+        np.setPos(x, y, z)
+        self.physics_world.attachRigidBody(node)
+
+        vis = self.block_model.copyTo(np)
+        vis.setScale(size)
+
+    def update(self, task):
+        dt = globalClock.getDt()
+
+        if self.mouseWatcherNode.hasMouse():
+            md = self.win.getPointer(0)
+            x = md.getX()
+            y = md.getY()
+            size = self.win.getProperties().getSize()
+            cx = int(size.x / 2)
+            cy = int(size.y / 2)
+            dx = x - cx
+            dy = y - cy
+
+            self.heading -= dx * self.mouse_sensitivity
+            self.pitch = max(-90, min(90, self.pitch - dy * self.mouse_sensitivity))
+            self.player_np.setH(self.heading)
+            self.camera.setP(self.pitch)
+
+            self.center_mouse()
+
+        walk_dir = Vec3(0, 0, 0)
+        quat = self.player_np.getQuat()
+        if self.keys["w"]:
+            walk_dir += quat.getForward()
+        if self.keys["s"]:
+            walk_dir -= quat.getForward()
+        if self.keys["a"]:
+            walk_dir -= quat.getRight()
+        if self.keys["d"]:
+            walk_dir += quat.getRight()
+
+        walk_dir.setZ(0)
+        if walk_dir.lengthSquared() > 0:
+            walk_dir.normalize()
+            walk_dir *= 5.0
+        else:
+            walk_dir = Vec3(0, 0, 0)
+
+        self.player_node.setLinearMovement(walk_dir, is_local=False)
+
+        if self.keys["space"] and self.player_node.isOnGround():
+            self.player_node.doJump()
+
+        self.physics_world.doPhysics(dt, 10, 1.0 / 300.0)
+        return Task.cont
+
+
+app = MinecraftRandomTerrain()
+app.run()
