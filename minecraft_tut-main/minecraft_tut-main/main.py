@@ -2,10 +2,14 @@ from panda3d.core import *
 from panda3d.bullet import *
 from direct.showbase.ShowBase import ShowBase
 from direct.task import Task
-from panda3d.core import Point3
+from panda3d.core import Point3,AmbientLight
 from direct.gui.OnscreenImage import OnscreenImage
 from direct.gui.OnscreenText import OnscreenText
 from panda3d.core import TransparencyAttrib
+from panda3d.core import Point3, TextureStage
+from panda3d.core import Texture
+from panda3d.core import NodePath
+
 import sys
 import random
 import math
@@ -45,7 +49,24 @@ class MinecraftSimple(ShowBase):
         self.speed = 5
         self.gravity = -20
         self.jump_speed = 7
+        self.win.setClearColor((0.4, 0.7, 1, 1))  # RGB для блакитного неба
+        # Завантаження текстури неба
+        sky = self.loader.loadModel('models/misc/sphere')  # стандартна сфера Panda3D
+        sky.setScale(1000, 1000, 1000)  # Збільшуємо масштаб, щоб вона покривала все небо
+        sky.setPos(0, 0, 0)  # Розташування сфери
 
+        # Заміна кольору на синій
+        sky.setColor(0.4, 0.7, 1, 1)  # RGB колір для блакитного неба (0.4, 0.7, 1)
+
+        # Для зворотного напрямку (щоб текстура не відображалася всередині)
+        sky.setBin('background', 0)
+        sky.setDepthWrite(False)  # Вимикаємо глибину для неба, щоб воно не блокувало інші об'єкти
+
+        # Додавання освітлення для ефекту
+        directional_light = self.render.attachNewNode(AmbientLight('ambient_light'))
+        directional_light.node().setColor((1, 1, 1, 1))  # Яскраве біле світло
+        directional_light.setHpr(45, -45, 0)  # Напрямок освітлення # М'яке світло
+        self.render.setLight(directional_light)
         self.is_crouching = False
         self.normal_speed = self.speed
         self.crouch_speed = self.speed * 0.2
@@ -317,6 +338,7 @@ class MinecraftSimple(ShowBase):
                 print(f"  {block}: {count}{marker}")
 
     def init_hotbar(self):
+        crosshair = OnscreenImage(image="assets/textures/ui/crosshairs.png", pos=(0,0,0),scale=(0.1,0.1,0.1))
         for i, block_type in enumerate(self.slot_keys):
             x = -0.3 + i * 0.3
             image = OnscreenImage(image="assets/textures/ui/" + block_type + "_icon.png",
