@@ -1,0 +1,766 @@
+body {
+
+        margin: 0;
+
+        background-color: #000;
+
+        background-image: radial-gradient(ellipse at top, #335476 0.0%, #31506e 11.1%, #304b67 22.2%, #2f4760 33.3%, #2d4359 44.4%, #2c3f51 55.6%, #2a3a4a 66.7%, #293643 77.8%, #28323d 88.9%, #262e36 100.0%);
+
+        height: 100vh;
+
+        overflow: hidden;
+
+
+        font-family: monospace;
+
+        font-weight: bold;
+
+        letter-spacing: 0.06em;
+
+        color: rgba(255, 255, 255, 0.75);
+
+  }
+
+
+  #c {
+
+        display: block;
+
+        touch-action: none;
+
+        transform: translateZ(0);
+
+  }
+
+
+
+  /*/////////////////////
+
+  //        HUD        //
+
+  /////////////////////*/
+
+
+
+  .hud__score,
+
+  .pause-btn {
+
+        position: fixed;
+
+        font-size: calc(14px + 2vw + 1vh);
+
+  }
+
+
+  .hud__score {
+
+        top: 0.65em;
+
+        left: 0.65em;
+
+        pointer-events: none;
+
+        user-select: none;
+
+  }
+
+
+  .cube-count-lbl {
+
+        font-size: 0.46em;
+
+  }
+
+
+  .pause-btn {
+
+        position: fixed;
+
+        top: 0;
+
+        right: 0;
+
+        padding: 0.8em 0.65em;
+
+  }
+
+
+  .pause-btn > div {
+
+        position: relative;
+
+        width: 0.8em;
+
+        height: 0.8em;
+
+        opacity: 0.75;
+
+  }
+
+
+  .pause-btn > div::before,
+
+  .pause-btn > div::after {
+
+        content: '';
+
+        display: block;
+
+        width: 34%;
+
+        height: 100%;
+
+        position: absolute;
+
+        background-color: #fff;
+
+  }
+
+
+  .pause-btn > div::after {
+
+        right: 0;
+
+  }
+
+
+  .slowmo {
+
+        position: fixed;
+
+        bottom: 0;
+
+        width: 100%;
+
+        pointer-events: none;
+
+        opacity: 0;
+
+        transition: opacity 0.4s;
+
+        will-change: opacity;
+
+  }
+
+
+  .slowmo::before {
+
+        content: 'SLOW-MO';
+
+        display: block;
+
+        font-size: calc(8px + 1vw + 0.5vh);
+
+        margin-left: 0.5em;
+
+        margin-bottom: 8px;
+
+  }
+
+
+  .slowmo::after {
+
+        content: '';
+
+        display: block;
+
+        position: fixed;
+
+        bottom: 0;
+
+        width: 100%;
+
+        height: 1.5vh;
+
+        background-color: rgba(0, 0, 0, 0.25);
+
+        z-index: -1;
+
+  }
+
+
+  .slowmo__bar {
+
+        height: 1.5vh;
+
+        background-color: rgba(255, 255, 255, 0.75);
+
+        transform-origin: 0 0;
+
+  }
+
+
+
+
+  /*/////////////////////
+
+  //       MENUS       //
+
+  /////////////////////*/
+
+
+  .menus::before {
+
+        content: '';
+
+        pointer-events: none;
+
+        position: fixed;
+
+        top: 0;
+
+        right: 0;
+
+        bottom: 0;
+
+        left: 0;
+
+        background-color: #000;
+
+        opacity: 0;
+
+        transition: opacity 0.2s;
+
+        transition-timing-function: ease-in;
+
+  }
+
+
+  .menus.has-active::before {
+
+        opacity: 0.08;
+
+        transition-duration: 0.4s;
+
+        transition-timing-function: ease-out;
+
+  }
+
+
+  .menus.interactive-mode::before {
+
+        opacity: 0.02;
+
+  }
+
+
+
+
+  /* Menu containers */
+
+  .menu {
+
+        pointer-events: none;
+
+        position: fixed;
+
+        top: 0;
+
+        right: 0;
+
+        bottom: 0;
+
+        left: 0;
+
+        display: flex;
+
+        flex-direction: column;
+
+        justify-content: center;
+
+        align-items: center;
+
+        user-select: none;
+
+        text-align: center;
+
+        color: rgba(255, 255, 255, 0.9);
+
+        opacity: 0;
+
+        visibility: hidden;
+
+        transform: translateY(30px);
+
+        transition-property: opacity, visibility, transform;
+
+        transition-duration: 0.2s;
+
+        transition-timing-function: ease-in;
+        
+
+  }
+
+
+  .menu.active {
+
+        opacity: 1;
+
+        visibility: visible;
+
+        transform: translateY(0);
+
+        transition-duration: 0.4s;
+
+        transition-timing-function: ease-out;
+
+  }
+
+
+  .menus.interactive-mode .menu.active {
+
+        opacity: 0.6;
+
+  }
+
+
+  .menu.active > * {
+
+        pointer-events: auto;
+
+  }
+
+
+
+  /* Common menu elements */
+
+
+  h1 {
+
+        font-size: 4rem;
+
+        line-height: 0.95;
+
+        text-align: center;
+
+        font-weight: bold;
+
+        margin: 0 0.65em 1em;
+
+  }
+
+
+  h2 {
+
+        font-size: 1.2rem;
+
+        line-height: 1;
+
+        text-align: center;
+
+        font-weight: bold;
+
+        margin: -1em 0.65em 1em;
+
+  }
+
+
+  .final-score-lbl {
+
+        font-size: 5rem;
+
+        margin: -0.2em 0 0;
+
+  }
+
+
+  .high-score-lbl {
+
+        font-size: 1.2rem;
+
+        margin: 0 0 2.5em;
+
+  }
+
+
+  button {
+
+        display: block;
+
+        position: relative;
+
+        width: 200px;
+
+        padding: 12px 20px;
+
+        background: transparent;
+
+        border: none;
+
+        outline: none;
+
+        user-select: none;
+
+        font-family: monospace;
+
+        font-weight: bold;
+
+        font-size: 1.4rem;
+
+        color: #fff;
+
+        opacity: 0.75;
+
+        transition: opacity 0.3s;
+
+  }
+
+
+  button::before {
+
+        content: '';
+
+        position: absolute;
+
+        top: 0;
+
+        right: 0;
+
+        bottom: 0;
+
+        left: 0;
+
+        background-color: rgba(255, 255, 255, 0.15);
+
+        transform: scale(0, 0);
+
+        opacity: 0;
+
+        transition: opacity 0.3s, transform 0.3s;
+
+  }
+
+
+  /* No `:focus` styles because this is a mouse/touch game! */
+
+  button:active {
+
+        opacity: 1;
+
+  }
+
+
+  button:active::before {
+
+        transform: scale(1, 1);
+
+        opacity: 1;
+
+  }
+
+
+  .credits {
+
+        position: fixed;
+
+        width: 100%;
+
+        left: 0;
+
+        bottom: 20px;
+
+  }
+
+
+  a {
+
+        color: white;
+
+  }
+
+
+  /* Only enable hover state on large screens */
+
+  @media (min-width: 1025px) {
+
+        button:hover {
+
+                opacity: 1;
+
+        }
+
+
+        button:hover::before {
+
+                transform: scale(1, 1);
+
+                opacity: 1;
+
+        }
+
+  }
+
+
+  /* Shop menu styles */
+.menu--shop .shop-items {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: calc(100% - 2em);
+    margin: 0 1em 1em;
+    padding-top: 20px;
+}
+
+/* Ensure shop container is visible when active */
+.menu--shop {
+    display: none;
+}
+.menu--shop.active {
+    display: block;
+}
+
+.menu--multiplayer .multiplayer-items {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: calc(100% - 2em);
+    margin: 0 1em 1em;
+    padding-top: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+/* Ensure shop container is visible when active */
+.menu--multiplayer {
+    display: none;
+}
+.menu--multiplayer.active {
+    display: block;
+}
+
+.shop-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 160px;
+    padding: 12px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 8px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.25) inset;
+}
+
+.shop-item .preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+    padding: 6px;
+}
+
+.shop-item .preview canvas {
+    width: 120px;
+    height: 120px;
+    display: block;
+}
+
+.shop-item .name {
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+}
+
+.shop-item .price {
+    font-size: 0.85rem;
+    opacity: 0.85;
+    margin-bottom: 8px;
+}
+
+.shop-item .buy-btn, .shop-item .equip-btn {
+    width: 100%;
+    padding: 8px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* HUD coin label */
+.coin-lbl {
+    position: absolute;
+    top: -0.1em;
+    right: 0;
+    font-size: .9rem;
+    opacity: .8;
+    pointer-events: none;
+}
+
+/* make sure shop back button appears nicely */
+.menu--shop .shop-back-btn {
+    
+    margin-left: 90%;
+    margin-top:37% ;
+
+}
+
+.menu--shop .multiplayer-back-btn {
+    
+    margin-left: 90%;
+    margin-top:37% ;
+    
+}
+
+.multiplayer-back-btn{
+      margin-left: 90%;
+      margin-top:37% ;
+}
+
+.menu--shop .shop-coin-lbl {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    opacity: 0.95;
+    text-align: center;
+}
+
+.h1-shop {
+      margin-top: 5%;
+}
+
+.Red-cube{
+      width: 230px;
+      height: 230px;
+     
+      
+      
+}
+
+.items{
+      margin-top: -37%;
+      margin-left: -30%;    
+}
+
+.border-items{
+      border: 2px solid white;
+      opacity: 0.4;
+      width: 230px;
+      height: 230px;
+}
+
+/* Shop and Multiplayer cube animations */
+.shop-cube-wrapper {
+  perspective: 1000px;
+  width: 130px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shop-cube-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.shop-cube-bounce {
+  animation: shop-bounce 3s ease-in-out infinite;
+}
+
+.shop-cube-rotate {
+  animation: shop-rotate 6s linear infinite;
+  transform-style: preserve-3d;
+}
+
+@keyframes shop-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes shop-rotate {
+  0% { transform: rotateX(0deg) rotateY(0deg); }
+  25% { transform: rotateX(90deg) rotateY(90deg); }
+  50% { transform: rotateX(180deg) rotateY(180deg); }
+  75% { transform: rotateX(270deg) rotateY(270deg); }
+  100% { transform: rotateX(360deg) rotateY(360deg); }
+}
+
+/* Cube faces styles (assuming .cube-common and .cube-face are defined elsewhere) */
+.shop-cube .cube-face {
+  position: absolute;
+  width: var(--cube-size, 30px);
+  height: var(--cube-size, 30px);
+  border: 1px solid rgba(0,0,0,0.1);
+  box-sizing: border-box;
+}
+
+.shop-cube .front { transform: translateZ(var(--cube-half, 15px)); }
+.shop-cube .back { transform: rotateY(180deg) translateZ(var(--cube-half, 15px)); }
+.shop-cube .left { transform: rotateY(-90deg) translateZ(var(--cube-half, 15px)); }
+.shop-cube .right { transform: rotateY(90deg) translateZ(var(--cube-half, 15px)); }
+.shop-cube .top { transform: rotateX(90deg) translateZ(var(--cube-half, 15px)); }
+.shop-cube .bottom { transform: rotateX(-90deg) translateZ(var(--cube-half, 15px)); }
+
+
+.cube-wrapper, .cube-small { pointer-events: none; }
+
+/* Name input menu */
+.menu--name input {
+  padding: 12px;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  text-align: center;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  outline: none;
+}
+
+/* Player name in multiplayer */
+.player-name-hud {
+  position: fixed;
+  top: 2em;
+  left: 0.65em;
+  margin-left: 6em;
+  font-size: 30px;
+  opacity: 0.85;
+  pointer-events: none;
+  display: none;
+}
+
+.your-name {
+      font-size: 30px;
+      position: fixed;
+      top: 2em;
+      left: 0.65em;
+      pointer-events: none;
+      display: none;
+}
+
+/* Create lobby button positioning */
+#createLobbyBtn {
+  position: absolute;
+  top: 2em;
+  right: 0.65em;
+}
+
+
+
+.menu--multiplayer {
+  padding: 20px;
+}
+
+.lobby-card {
+  border: 2px solid white;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+button {
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+
+.lobby-card {
+  border: 2px solid white;
+  padding: 10px;
+  margin: 10px;
+  background: rgba(0,0,0,0.6);
+}
+
+.menu--lobby {
+  display: none;
+}
+

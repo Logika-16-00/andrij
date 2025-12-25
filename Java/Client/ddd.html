@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Музика через JS</title>
+</head>
+<body>
+
+<h2>Клікни будь-де для музики</h2>
+
+<script>
+const music = new Audio("music.mp3");
+music.loop = true;
+
+document.addEventListener("click", () => {
+    music.play().catch(e => console.error(e));
+}, { once: true });
+</script>
+
+</body>
+</html>
